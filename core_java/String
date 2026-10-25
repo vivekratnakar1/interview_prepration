@@ -1,0 +1,15 @@
+Why did Java make String immutable?
+
+  String Pool: Allows multiple references to reuse the same string literal safely.
+
+
+
+Security: Strings used in file paths, database URLs, and class loading cannot be changed unexpectedly.
+
+
+
+Thread safety: Immutable strings can be shared between threads without synchronization to protect their contents.
+
+
+
+Hashing and performance: A string's hash code can be cached because its content never changes, which benefits collections such as HashMap.
