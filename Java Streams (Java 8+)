@@ -1,0 +1,33 @@
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Optional;
+
+public class SecondLargestStream {
+    public static Optional<Integer> findSecondLargest(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return Optional.empty();
+        }
+
+        return Arrays.stream(arr)        // 1. Convert the int array to a Stream
+                .distinct()              // 2. Remove all duplicate values
+                .boxed()                 // 3. Convert int to Integer (Stream<Integer>)
+                .sorted(Comparator.reverseOrder()) // 4. Sort in descending order
+                .skip(1)                 // 5. Skip the first (largest) element
+                .findFirst();            // 6. Retrieve the next element (second largest)
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {12, 35, 1, 10, 34, 1};
+        int[] arr2 = {10, 10, 10};
+
+        findSecondLargest(arr1).ifPresentOrElse(
+            val -> System.out.println("Second largest in arr1: " + val),
+            () -> System.out.println("Second largest in arr1: Not found")
+        ); // Output: 34
+
+        findSecondLargest(arr2).ifPresentOrElse(
+            val -> System.out.println("Second largest in arr2: " + val),
+            () -> System.out.println("Second largest in arr2: Not found")
+        ); // Output: Not found
+    }
+}
