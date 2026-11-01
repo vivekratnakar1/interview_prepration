@@ -1,0 +1,46 @@
+find the second-largest distinct element in an array. This solution runs in 
+  >> (O(n)\) time complexity and uses \(O(1)\) extra space by traversing the array exactly once.
+
+public class SecondLargest {
+    public static Integer findSecondLargest(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return null; // Not enough elements to have a second largest
+        }
+
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+        boolean foundDistinct = false;
+
+        for (int num : arr) {
+            if (num > largest) {
+                secondLargest = largest;
+                largest = num;
+            } else if (num < largest && num > secondLargest) {
+                secondLargest = num;
+                foundDistinct = true;
+            }
+        }
+
+        // Handle cases where all elements are the same or no valid second distinct element exists
+        if (secondLargest == Integer.MIN_VALUE && !foundDistinct) {
+            return null; 
+        }
+
+        return secondLargest;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {12, 35, 1, 10, 34, 1};
+        int[] arr2 = {10, 10, 10}; // Duplicate elements case
+
+        System.out.println("Second largest in arr1: " + findSecondLargest(arr1)); // Output: 34
+        System.out.println("Second largest in arr2: " + findSecondLargest(arr2)); // Output: null
+    }
+}
+
+>> Single Pass Strategy: The algorithm tracks the largest and secondLargest variables simultaneously while looping through the array.
+
+>> Distinct Values Filtering: By checking num < largest && num > secondLargest, 
+    it ignores duplicate instances of the largest number, ensuring the result is strictly the second-largest distinct element.
+>> Edge Case Safety: It properly returns null if the array has fewer than two unique numbers (e.g., [10, 10, 10]).
+
