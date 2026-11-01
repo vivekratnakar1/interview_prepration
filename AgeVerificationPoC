@@ -1,0 +1,43 @@
+package com.advance.second_largest_distinct_1Nov26;
+
+public class AgeVerificationPoC {
+
+    // Core Logic Function to prove the concept
+    public static String processRegistration(String username, int age) {
+        // Rule: Must be 18 or older to register
+        if (age >= 18) {
+            return "✅ SUCCESS: Account created for " + username + ". Redirecting to dashboard...";
+        } else {
+            return "❌ BLOCKED: " + username + " is under 18. Registration denied.";
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("--- Starting Registration PoC Simulation ---\n");
+
+        // Test Case 1: An adult trying to sign up
+        String result1 = processRegistration("Amit_Kumar", 24);
+        System.out.println("User 1 Attempt: " + result1);
+
+        // Test Case 2: A minor trying to sign up
+        String result2 = processRegistration("Rahul_123", 15);
+        System.out.println("User 2 Attempt: " + result2);
+        
+        System.out.println("\n--- PoC Execution Complete ---");
+    }
+}
+/*
+ * O/P : --- Starting Registration PoC Simulation ---
+ * 
+ * User 1 Attempt: ✅ SUCCESS: Account created for Amit_Kumar. Redirecting to
+ * dashboard... User 2 Attempt: ❌ BLOCKED: Rahul_123 is under 18. Registration
+ * denied.
+ * 
+ * --- PoC Execution Complete ---
+ * 
+Why this is a proper PoC:
+
+• Runnable: It contains a main method, meaning it executes completely on its own.
+• No External Dependencies: It does not require any databases, APIs, or frameworks (like Spring Boot). It uses pure Java.
+• Proves the Business Rule: It clearly demonstrates to a stakeholder how the system will handle different types of users.
+ */
