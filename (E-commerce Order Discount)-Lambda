@@ -1,0 +1,27 @@
+import java.util.function.BiConsumer;
+
+public class MainEcommercePOC {
+    public static void main(String[] args) {
+        
+        // 1. Regular Customer Discount Lambda (Gives flat 10% discount)
+        BiConsumer<String, Double> regularDiscount = (product, price) -> {
+            double finalPrice = price - (price * 0.10);
+            System.out.println("🛒 Regular Order [" + product + "] | Original: $" + price + " | Final (10% Off): $" + finalPrice);
+        };
+
+        // 2. VIP Customer Discount Lambda (Gives flat 25% discount)
+        BiConsumer<String, Double> vipDiscount = (product, price) -> {
+            double finalPrice = price - (price * 0.25);
+            System.out.println("👑 VIP Order [" + product + "] | Original: $" + price + " | Final (25% Off): $" + finalPrice);
+        };
+
+        // 3. Testing the built-in lambda expressions
+        regularDiscount.accept("Laptop", 1000.0);
+        vipDiscount.accept("Laptop", 1000.0);
+        
+        System.out.println("----------------------------------------");
+        
+        regularDiscount.accept("Headphones", 200.0);
+        vipDiscount.accept("Headphones", 200.0);
+    }
+}
