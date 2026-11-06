@@ -1,23 +1,29 @@
-class InvalidAgeException extends RuntimeException {
+                        ## Why Unchecked?
+                        - Compiler does not force us to handle it.
+                        - It occurs at runtime.
+                        - Commonly used for programming errors, invalid arguments, and business rule violations.
 
-    public InvalidAgeException(String message) {
-        super(message);
-    }
-}
 
-public class Main {
-
-    static void validateAge(int age) {
-
-        if (age < 18) {
-            throw new InvalidAgeException("Age must be 18 or above");
-        }
-
-        System.out.println("Eligible to vote");
-    }
-
-    public static void main(String[] args) {
-
-        validateAge(15);
-    }
-}
+                        class InvalidAgeException extends RuntimeException {
+                        
+                            public InvalidAgeException(String message) {
+                                super(message);
+                            }
+                        }
+                        
+                        public class Main {
+                        
+                            static void validateAge(int age) {
+                        
+                                if (age < 18) {
+                                    throw new InvalidAgeException("Age must be 18 or above");
+                                }
+                        
+                                System.out.println("Eligible to vote");
+                            }
+                        
+                            public static void main(String[] args) {
+                        
+                                validateAge(15);
+                            }
+                        }
