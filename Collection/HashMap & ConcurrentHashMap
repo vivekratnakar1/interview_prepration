@@ -10,7 +10,7 @@ System.out.println(map);
 
 o/p------{1=Vivek, 2=Rahul, 3=Amit}
 Problem:__ HashMap is not thread-safe.
-===============================================================================================================================
+=========================================================================
 
 ConcurrentHashMap is a thread-safe implementation of the Map interface.
 It allows multiple threads to access and update the map safely.
@@ -26,6 +26,13 @@ It allows multiple threads to access and update the map safely.
                           System.out.println(map);
 
 Multiple threads can work with this map concurrently.
+
+======================================================================
+
+![HashMap vs ConcurrentHashMap](https://githubusercontent.com)
+
+
+
 
 
 
