@@ -29,7 +29,14 @@ Multiple threads can work with this map concurrently.
 
 ======================================================================
 
-![HashMap vs ConcurrentHashMap](https://githubusercontent.com)
+How does ConcurrentHashMap work internally?
+This is the most important interview concept.
+
+In modern Java (Java 8 and above), ConcurrentHashMap uses:
+1. CAS (Compare-And-Swap).
+2. synchronized for certain bucket-level updates.
+3. Volatile fields for visibility.
+4. Fine-grained coordination instead of locking the entire map for every update.
 
 
 
