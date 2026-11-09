@@ -1,0 +1,83 @@
+Singleton Design Pattern in Java ensures that a class has only one instance throughout the application and provides a global access point to it.
+It is mainly used when a single shared object is required, such as database connections, logging, or configuration settings. The constructor is
+made private to prevent creating multiple objects from outside the class.
+
+Allows only one object of the class to be created
+Provides global access to the same instance
+Helps save memory by reusing the same object
+
+            Forms of Singleton Class Pattern
+        There are two forms of singleton design patterns, which are:
+        
+        Early Instantiation: The object is created at the time of class loading.
+        Lazy Instantiation: The object is created only when it is required for the first time.
+        
+        
+
+
+                              class Singleton 
+                              {
+                                  // Static variable reference of single_instance
+                                  // of type Singleton
+                                  private static Singleton single_instance = null;
+                              
+                                  // Declaring a variable of type String
+                                  public String s;
+                              
+                                  // Constructor
+                                  // Here we will be creating private constructor
+                                  // restricted to this class itself
+                                  private Singleton()
+                                  {
+                                      s = "Hello I am a string part of Singleton class";
+                                  }
+                              
+                                  // Static method
+                                  // Static method to create instance of Singleton class
+                                  public static synchronized Singleton getInstance()
+                                  {
+                                      if (single_instance == null)
+                                          single_instance = new Singleton();
+                              
+                                      return single_instance;
+                                  }
+                              }
+                              
+                              // Main class
+                              class Demo 
+                              {
+                                  // Main driver method
+                                  public static void main(String args[])
+                                  {
+                                      // Instantiating Singleton class with variable x
+                                      Singleton x = Singleton.getInstance();
+                              
+                                      // Instantiating Singleton class with variable y
+                                      Singleton y = Singleton.getInstance();
+                              
+                                      // Instantiating Singleton class with variable z
+                                      Singleton z = Singleton.getInstance();
+                              
+                                      // Printing the hash code for above variable as
+                                      // declared
+                                      System.out.println("Hashcode of x is "
+                                                         + x.hashCode());
+                                      System.out.println("Hashcode of y is "
+                                                         + y.hashCode());
+                                      System.out.println("Hashcode of z is "
+                                                         + z.hashCode());
+                              
+                                      // Condition check
+                                      if (x == y && y == z) {
+                              
+                                          System.out.println(
+                                              "Three objects point to the same memory location on the heap i.e, to the same object");
+                                      }
+                              
+                                      else {
+                                          
+                                          System.out.println(
+                                              "Three objects DO NOT point to the same memory location on the heap");
+                                      }
+                                  }
+                              }
