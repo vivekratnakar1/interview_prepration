@@ -81,3 +81,9 @@ Helps save memory by reusing the same object
                                       }
                                   }
                               }
+                                                            o/p=============
+                                                            
+                                                            Hashcode of x is 1995265320
+                                                            Hashcode of y is 1995265320
+                                                            Hashcode of z is 1995265320
+                                                            Three objects point to the same memory location on the heap i.e, to the same object
