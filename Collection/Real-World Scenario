@@ -1,0 +1,54 @@
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+public class RealWorldSessionCachePoC {
+
+    // MNCs mein properties static aur final hoti hain real-time cache ke liye
+    private static final ConcurrentHashMap<String, String> sessionCache = new ConcurrentHashMap<>();
+
+    public static void main(String[] args) throws InterruptedException {
+        // MNC Production Level code mein hamesha Thread Pool use hota hai
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+
+        String userId = "USER_101";
+
+        // Thread 1: User ke mobile app se cart details load kar raha hai
+        threadPool.submit(() -> {
+            System.out.println("Mobile App: Fetching or creating session...");
+            
+            // MNC Style: containsKey + put ka atomic alternative (No Race Condition)
+            // Agar "USER_101" nahi hai, toh hi add karega, return hamesha current value hogi
+            String session = sessionCache.computeIfAbsent(userId, key -> "Cart_Items: [Laptop, Phone]");
+            System.out.println("Mobile App Active Session: " + session);
+        });
+
+        // Thread 2: User ke laptop browser se simultaneous update aa gaya (same time par)
+        threadPool.submit(() -> {
+            try { Thread.sleep(10); } catch (InterruptedException e) {}
+            System.out.println("Web Browser: Updating cart items...");
+            
+            // MNC Style: Atomic modification bina null check ke jhanjhat ke
+            sessionCache.computeIfPresent(userId, (key, currentValue) -> currentValue + ", [Headphones]");
+        });
+
+        // Thread 3: Background cleaner service jo verify kar rahi hai
+        threadPool.submit(() -> {
+            try { Thread.sleep(20); } catch (InterruptedException e) {}
+            
+            // MNC Style Best Practice: null check ke bina safe query kaise karein
+            // Agar key delete bhi ho gayi ho, toh exception ki jagah default value mil jaye
+            String finalSession = sessionCache.getOrDefault(userId, "Session_Expired");
+            System.out.println("Background Monitor Checked Data: " + finalSession);
+        });
+
+        // Thread pool ko properly close karna MNC production standard hai
+        threadPool.shutdown();
+        threadPool.awaitTermination(5, TimeUnit.SECONDS);
+
+        // Final output verify karna
+        System.out.println("\n--- Final Database/Cache State ---");
+        System.out.println("Production Cache Content: " + sessionCache);
+    }
+}
