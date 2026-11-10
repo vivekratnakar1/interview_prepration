@@ -1,0 +1,53 @@
+
+1. Fail-Fast Iterators 🛑
+
+ These iterators operate directly on the live collection.
+If any thread modifies the collection structurally (adding, removing elements) while an iterator is traversing it,
+the iterator immediately throws a ConcurrentModificationException. It detects modifications using an internal counter called
+
+
+2. Fail-Safe / Weakly Consistent Iterators 🛡️
+
+ These iterators do not operate on the live original collection directly. Instead, 
+they work on a clone/snapshot or a weakly consistent view of the collection. Because of this,
+modifications made to the backing collection during iteration do not cause any exceptions.
+======================================================================================================================================
+
+                                      import java.util.ArrayList;
+                                      import java.util.Iterator;
+                                      import java.util.List;
+                                      
+                                      public class FailFastPoC {
+                                          public static void main(String[] args) {
+                                              List<String> list = new ArrayList<>();
+                                              list.add("Java");
+                                              list.add("Python");
+                                              list.add("C++");
+                                      
+                                              Iterator<String> iterator = list.iterator();
+                                      
+                                              try {
+                                                  while (iterator.hasNext()) {
+                                                      String language = iterator.next();
+                                                      System.out.println("Reading: " + language);
+                                      
+                                                      // Modification inside iteration loop
+                                                      if (language.equals("Python")) {
+                                                          list.add("JavaScript"); // 🛑 Yeh original list ko modify kar raha hai
+                                                      }
+                                                  }
+                                              } catch (Exception e) {
+                                                  System.out.println("\n💥 Exception caught: " + e);
+                                              }
+                                          }
+                                      }
+
+
+
+
+Output:
+ 
+Reading: Java
+Reading: Python
+
+💥 Exception caught: java.util.ConcurrentModificationException
