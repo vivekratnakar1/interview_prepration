@@ -52,3 +52,25 @@ public class RealWorldSessionCachePoC {
         System.out.println("Production Cache Content: " + sessionCache);
     }
 }
+
+
+                                  o/p---                Mobile App: Fetching or creating session...
+                                                    Mobile App Active Session: Cart_Items: [Laptop, Phone]
+                                                    Web Browser: Updating cart items...
+                                                    Background Monitor Checked Data: Cart_Items: [Laptop, Phone], [Headphones]
+                                                    
+                                                    --- Final Database/Cache State ---
+                                                    Production Cache Content: {USER_101=Cart_Items: [Laptop, Phone], [Headphones]}
+
+
+
+MNC Level Code Decisions (Is PoC se kya seekha?)
+
+1. No null Checking Hassle (getOrDefault):
+MNCs mein agar direct map.get(key) likhoge aur key absent hui, toh code null dega jo aage chalke NullPointerException (NPE) ban sakta hai. 
+Production code mein hum getOrDefault(key, defaultValue) use karte hain taaki null ka kissa hi khatam ho jaye.
+2. Atomic APIs over conditional blocks:
+Real world mein if(!map.containsKey(key)) { map.put(key, value); } likhna sakht mana hota hai kyunki yeh thread-safe nahi hai (race condition banata hai).
+Iski jagah Java 8 ke modern atomic methods jaise computeIfAbsent(), putIfAbsent(), aur computeIfPresent() ka use kiya jata hai, 
+jo internally buckets ko lock karke smoothly kaam karte hain.
+
